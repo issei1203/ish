@@ -4,6 +4,21 @@ import (
 	"testing"
 )
 
+func TestHead_GetContent(t *testing.T) {
+	var childDirName = "test2"
+	var childFileName = "test3"
+	var testChildDir = directory{name: childDirName, files: []*file{}, parentDir: nil, childDir: []*directory{}}
+	var testChildFile = file{name: childFileName, content: ""}
+	var testRootDir = directory{name: "test", files: []*file{&testChildFile}, parentDir: nil, childDir: []*directory{&testChildDir}}
+	var head = Head{dir: &testRootDir}
+
+	var content = head.GetContent()
+
+	if len(content) != 2 {
+		t.Errorf("expected content length is 1. but was %d", len(content))
+	}
+}
+
 func Test_initRootDir(t *testing.T) {
 	var result = initRootDir()
 

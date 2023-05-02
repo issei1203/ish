@@ -37,6 +37,13 @@ func (head Head) RemoveFile(name string) {
 	removeFile(head.dir, name)
 }
 
+func (head Head) ChangeDir(name string) {
+	for _, dir := range head.dir.childDir {
+		if dir.name == name {
+		}
+	}
+}
+
 func InitHead() Head {
 	var rootDir = initRootDir()
 	return Head{dir: &rootDir}
