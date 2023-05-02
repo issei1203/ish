@@ -5,18 +5,18 @@ var rootDir directory
 const root = "root"
 
 func initRootDir() directory {
-	rootDir = directory{name: root, files: []*file{}, directories: []*directory{}}
+	rootDir = directory{name: root, files: []*file{}, parentDir: nil, childDir: []*directory{}}
 	return rootDir
 }
 
 func makeDir(parent *directory, name string) {
-	var child = directory{name: name, files: []*file{}, directories: []*directory{}}
-	var newChildren = append(parent.directories, &child)
-	parent.directories = newChildren
+	var child = directory{name: name, files: []*file{}, parentDir: parent, childDir: []*directory{}}
+	var newChildren = append(parent.childDir, &child)
+	parent.childDir = newChildren
 }
 
 func removeDir(parent *directory, name string) {
-	var children = parent.directories
+	var children = parent.childDir
 
 	var targetIndex int = -1
 
@@ -39,7 +39,7 @@ func removeDir(parent *directory, name string) {
 		}
 	}
 
-	parent.directories = newChildren
+	parent.childDir = newChildren
 }
 
 func makeFile(parent *directory, name string, content string) {

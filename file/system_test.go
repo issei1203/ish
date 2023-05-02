@@ -15,21 +15,25 @@ func Test_initRootDir(t *testing.T) {
 		t.Errorf("expected files length is 0. but was %d", len(result.files))
 	}
 
-	if len(result.directories) != 0 {
-		t.Errorf("expected directories length is 0. but was %d", len(result.directories))
+	if result.parentDir != nil {
+		t.Errorf("expected parentDir is nil")
+	}
+
+	if len(result.childDir) != 0 {
+		t.Errorf("expected childDir length is 0. but was %d", len(result.childDir))
 	}
 }
 
 func Test_makeDir(t *testing.T) {
-	var testRootDir = directory{name: "test", files: []*file{}, directories: []*directory{}}
+	var testRootDir = directory{name: "test", files: []*file{}, parentDir: nil, childDir: []*directory{}}
 
 	makeDir(&testRootDir, "test2")
 
-	if len(testRootDir.directories) != 1 {
-		t.Errorf("expected test root directories length is 1. but was %d", len(testRootDir.directories))
+	if len(testRootDir.childDir) != 1 {
+		t.Errorf("expected test root childDir length is 1. but was %d", len(testRootDir.childDir))
 	}
 
-	var testChildDir = *(testRootDir.directories[0])
+	var testChildDir = *(testRootDir.childDir[0])
 
 	if testChildDir.name != "test2" {
 		t.Errorf("expected testChildDir name is 'test2'. but was %s", testChildDir.name)
@@ -39,25 +43,29 @@ func Test_makeDir(t *testing.T) {
 		t.Errorf("expected testChildDir files length is 0. but was %d", len(testChildDir.files))
 	}
 
-	if len(testChildDir.directories) != 0 {
-		t.Errorf("expected testChildDir directories length is 0. but was %d", len(testChildDir.directories))
+	if testChildDir.parentDir != &testRootDir {
+		t.Errorf("expected testParentDir is %p. but was %p", &testRootDir, testChildDir.parentDir)
+	}
+
+	if len(testChildDir.childDir) != 0 {
+		t.Errorf("expected testChildDir childDir length is 0. but was %d", len(testChildDir.childDir))
 	}
 }
 
 func Test_removeDir(t *testing.T) {
 	var childDirName = "test2"
-	var testChildDir = directory{name: childDirName, files: []*file{}, directories: []*directory{}}
-	var testRootDir = directory{name: "test", files: []*file{}, directories: []*directory{&testChildDir}}
+	var testChildDir = directory{name: childDirName, files: []*file{}, parentDir: nil, childDir: []*directory{}}
+	var testRootDir = directory{name: "test", files: []*file{}, parentDir: nil, childDir: []*directory{&testChildDir}}
 
 	removeDir(&testRootDir, childDirName)
 
-	if len(testRootDir.directories) != 0 {
-		t.Errorf("expected testRootDir directories length is 0. but was %d", len(testChildDir.directories))
+	if len(testRootDir.childDir) != 0 {
+		t.Errorf("expected testRootDir childDir length is 0. but was %d", len(testChildDir.childDir))
 	}
 }
 
 func Test_makeFile(t *testing.T) {
-	var testRootDir = directory{name: "test", files: []*file{}, directories: []*directory{}}
+	var testRootDir = directory{name: "test", files: []*file{}, childDir: []*directory{}}
 
 	makeFile(&testRootDir, "test2", "test")
 
@@ -79,7 +87,7 @@ func Test_makeFile(t *testing.T) {
 func Test_removeFile(t *testing.T) {
 	var childFileName = "test2"
 	var testChildFile = file{name: childFileName, content: ""}
-	var testRootDir = directory{name: "test", files: []*file{&testChildFile}, directories: []*directory{}}
+	var testRootDir = directory{name: "test", files: []*file{&testChildFile}, childDir: []*directory{}}
 
 	removeFile(&testRootDir, childFileName)
 

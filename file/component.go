@@ -6,7 +6,8 @@ type file struct {
 }
 
 type directory struct {
-	name        string
-	files       []*file
-	directories []*directory
+	name      string
+	files     []*file
+	parentDir *directory
+	childDir  []*directory
 }
