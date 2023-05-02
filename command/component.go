@@ -1,6 +1,6 @@
 package command
 
-type command struct {
+type parsedCommand struct {
 	name   string
 	option []string
 }

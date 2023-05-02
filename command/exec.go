@@ -3,7 +3,7 @@ package command
 import "fmt"
 
 func Exec(cmd string) {
-	var command command
+	var command parsedCommand
 
 	err := parse(&cmd, &command)
 	if err != nil {

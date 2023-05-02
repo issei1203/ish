@@ -4,6 +4,8 @@ var rootDir directory
 
 const root = "root"
 
+var HEAD Head
+
 type Head struct {
 	dir *directory
 }
@@ -51,9 +53,9 @@ func (head Head) ChangeParentDir() {
 	}
 }
 
-func InitHead() Head {
+func InitHead() {
 	var rootDir = initRootDir()
-	return Head{dir: &rootDir}
+	HEAD = Head{dir: &rootDir}
 }
 
 func initRootDir() directory {
