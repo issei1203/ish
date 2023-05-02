@@ -1,6 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"ish/command"
+	"os"
+)
 
 func main() {
 	initShell()
@@ -17,15 +22,11 @@ func initShell() {
 func renderLoop() {
 	fmt.Print("> ")
 
-	var cmd string
-	var _, err = fmt.Scanf("%s", &cmd)
+	stdin := bufio.NewScanner(os.Stdin)
+	stdin.Scan()
+	var cmd = stdin.Text()
 
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println(cmd)
+	command.Exec(cmd)
 
 	renderLoop()
 }
