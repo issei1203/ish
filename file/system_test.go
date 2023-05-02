@@ -55,3 +55,35 @@ func Test_removeDir(t *testing.T) {
 		t.Errorf("expected testRootDir directories length is 0. but was %d", len(testChildDir.directories))
 	}
 }
+
+func Test_makeFile(t *testing.T) {
+	var testRootDir = directory{name: "test", files: []*file{}, directories: []*directory{}}
+
+	makeFile(&testRootDir, "test2", "test")
+
+	if len(testRootDir.files) != 1 {
+		t.Errorf("expected testRootDir files length is 1. but was %d", len(testRootDir.files))
+	}
+
+	var testChildFile = *(testRootDir.files[0])
+
+	if testChildFile.name != "test2" {
+		t.Errorf("expected testChildFile name is test2. but was %s", testChildFile.name)
+	}
+
+	if testChildFile.content != "test" {
+		t.Errorf("expected testChildFile content is ''. but was %s", testChildFile.content)
+	}
+}
+
+func Test_removeFile(t *testing.T) {
+	var childFileName = "test2"
+	var testChildFile = file{name: childFileName, content: ""}
+	var testRootDir = directory{name: "test", files: []*file{&testChildFile}, directories: []*directory{}}
+
+	removeFile(&testRootDir, childFileName)
+
+	if len(testRootDir.files) != 0 {
+		t.Errorf("expected testRootDir files length is 0. but was %d", len(testRootDir.files))
+	}
+}
