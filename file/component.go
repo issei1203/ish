@@ -11,3 +11,8 @@ type directory struct {
 	parentDir *directory
 	childDir  []*directory
 }
+
+type Content struct {
+	IsDirectory bool
+	Name        string
+}
