@@ -3,7 +3,8 @@ package command
 import "fmt"
 
 var cmdMap = map[string]command{
-	"ls": ls{},
+	"ls":    ls{},
+	"mkdir": mkdir{},
 }
 
 func Exec(cmd string) {
@@ -15,7 +16,9 @@ func Exec(cmd string) {
 		return
 	}
 
-	if executer, ok := cmdMap[command.name]; ok {
-		executer.exec(command)
+	if executor, ok := cmdMap[command.name]; ok {
+		executor.exec(command)
+	} else {
+		fmt.Println("command not found")
 	}
 }
