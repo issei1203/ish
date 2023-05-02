@@ -2,6 +2,10 @@ package command
 
 import "fmt"
 
+var cmdMap = map[string]command{
+	"ls": ls{},
+}
+
 func Exec(cmd string) {
 	var command parsedCommand
 
@@ -11,5 +15,7 @@ func Exec(cmd string) {
 		return
 	}
 
-	fmt.Printf("%s  ::  %s\n", command.name, command.option)
+	if executer, ok := cmdMap[command.name]; ok {
+		executer.exec(command)
+	}
 }

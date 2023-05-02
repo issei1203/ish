@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"ish/command"
+	"ish/file"
 	"os"
 )
 
@@ -16,7 +17,7 @@ func main() {
 }
 
 func initShell() {
-
+	file.InitHead()
 }
 
 func renderLoop() {
