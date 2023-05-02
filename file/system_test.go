@@ -19,6 +19,30 @@ func TestHead_GetContent(t *testing.T) {
 	}
 }
 
+func TestHead_ChangeDir(t *testing.T) {
+	var testChildDir = directory{name: "test2", files: []*file{}, parentDir: nil, childDir: []*directory{}}
+	var testRootDir = directory{name: "test", files: []*file{}, parentDir: nil, childDir: []*directory{&testChildDir}}
+	var head = Head{dir: &testRootDir}
+
+	head.ChangeDir("test2")
+
+	if head.dir.name != testChildDir.name {
+		t.Errorf("expected current directory name is 'test2'. but was %s", head.dir.name)
+	}
+}
+
+func TestHead_ChangeParentDir(t *testing.T) {
+	var testRootDir = directory{name: "test", files: []*file{}, parentDir: nil}
+	var testChildDir = directory{name: "test2", files: []*file{}, parentDir: &testRootDir}
+	var head = Head{dir: &testChildDir}
+
+	head.ChangeParentDir()
+
+	if head.dir.name != testRootDir.name {
+		t.Errorf("expected current directory name is 'test'. but was %s", head.dir.name)
+	}
+}
+
 func Test_initRootDir(t *testing.T) {
 	var result = initRootDir()
 

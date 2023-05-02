@@ -40,7 +40,14 @@ func (head Head) RemoveFile(name string) {
 func (head Head) ChangeDir(name string) {
 	for _, dir := range head.dir.childDir {
 		if dir.name == name {
+			*head.dir = *dir
 		}
+	}
+}
+
+func (head Head) ChangeParentDir() {
+	if head.dir.parentDir != nil {
+		*(head.dir) = *(head.dir.parentDir)
 	}
 }
 
