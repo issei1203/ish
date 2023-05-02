@@ -18,7 +18,13 @@ func renderLoop() {
 	fmt.Print("> ")
 
 	var cmd string
-	fmt.Scanf("%s", &cmd)
+	var _, err = fmt.Scanf("%s", &cmd)
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
 	fmt.Println(cmd)
 
 	renderLoop()
