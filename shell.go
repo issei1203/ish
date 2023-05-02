@@ -21,7 +21,7 @@ func initShell() {
 }
 
 func renderLoop() {
-	fmt.Print("> ")
+	fmt.Printf("%s > ", file.HEAD.GetCurrentDirName())
 
 	stdin := bufio.NewScanner(os.Stdin)
 	stdin.Scan()

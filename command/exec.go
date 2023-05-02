@@ -4,6 +4,8 @@ import "fmt"
 
 var cmdMap = map[string]command{
 	"ls":    ls{},
+	"cd":    cd{},
+	"cpd":   cpd{},
 	"mkdir": mkdir{},
 }
 

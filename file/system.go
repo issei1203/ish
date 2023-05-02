@@ -1,5 +1,7 @@
 package file
 
+import "fmt"
+
 var rootDir directory
 
 const root = "root"
@@ -7,16 +9,16 @@ const root = "root"
 var HEAD Head
 
 type Head struct {
-	dir *directory
+	dir **directory
 }
 
 func (head Head) GetContent() []Content {
 	var contents []Content
-	for _, dir := range head.dir.childDir {
+	for _, dir := range (*head.dir).childDir {
 		contents = append(contents, Content{IsDirectory: true, Name: dir.name})
 	}
 
-	for _, file := range head.dir.files {
+	for _, file := range (*head.dir).files {
 		contents = append(contents, Content{IsDirectory: false, Name: file.name})
 	}
 
@@ -24,38 +26,46 @@ func (head Head) GetContent() []Content {
 }
 
 func (head Head) MakeDir(name string) {
-	makeDir(head.dir, name)
+	makeDir(*(head.dir), name)
 }
 
 func (head Head) RemoveDir(name string) {
-	removeDir(head.dir, name)
+	removeDir(*(head.dir), name)
 }
 
 func (head Head) MakeFile(name, content string) {
-	makeFile(head.dir, name, content)
+	makeFile(*(head.dir), name, content)
 }
 
 func (head Head) RemoveFile(name string) {
-	removeFile(head.dir, name)
+	removeFile(*(head.dir), name)
 }
 
 func (head Head) ChangeDir(name string) {
-	for _, dir := range head.dir.childDir {
+	for _, dir := range (*head.dir).childDir {
 		if dir.name == name {
-			*head.dir = *dir
+			*head.dir = dir
 		}
 	}
 }
 
 func (head Head) ChangeParentDir() {
-	if head.dir.parentDir != nil {
-		*(head.dir) = *(head.dir.parentDir)
+	if (*head.dir).parentDir != nil {
+		*head.dir = (*head.dir).parentDir
+	} else {
+		fmt.Println("current directory is root directory")
 	}
+}
+
+func (head Head) GetCurrentDirName() string {
+	return (*head.dir).name
 }
 
 func InitHead() {
 	var rootDir = initRootDir()
-	HEAD = Head{dir: &rootDir}
+	var rootDirPtr = &rootDir
+	var rootDirDptr = &rootDirPtr
+	HEAD = Head{dir: rootDirDptr}
 }
 
 func initRootDir() directory {
