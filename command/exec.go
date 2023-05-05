@@ -10,6 +10,8 @@ var cmdMap = map[string]command{
 	"rmdir": rmdir{},
 	"touch": touch{},
 	"rm":    rm{},
+	"write": write{},
+	"read":  read{},
 }
 
 func Exec(cmd string) {

@@ -140,3 +140,24 @@ func Test_removeFile(t *testing.T) {
 		t.Errorf("expected testRootDir files length is 0. but was %d", len(testRootDir.files))
 	}
 }
+
+func Test_writeFile(t *testing.T) {
+	var childFileName = "test2"
+	var childFileContent = "testContent"
+	var testChildFile = file{name: childFileName, content: "sample"}
+	var testRootDir = directory{name: "test", files: []*file{&testChildFile}, childDir: []*directory{}}
+
+	writeFile(&testRootDir, childFileName, childFileContent)
+
+	if len(testRootDir.files) != 1 {
+		t.Errorf("expected testRootDir files length is 0. but was %d", len(testRootDir.files))
+	}
+
+	if testRootDir.files[0].name != childFileName {
+		t.Errorf("expected childFileName is 'test2'. but was %s", testRootDir.files[0].name)
+	}
+
+	if testRootDir.files[0].content != childFileContent {
+		t.Errorf("expected childFileContent is 'testContent'. but was %s", testRootDir.files[0].content)
+	}
+}
