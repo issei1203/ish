@@ -7,6 +7,7 @@ var cmdMap = map[string]command{
 	"cd":    cd{},
 	"cpd":   cpd{},
 	"mkdir": mkdir{},
+	"rmdir": rmdir{},
 }
 
 func Exec(cmd string) {
