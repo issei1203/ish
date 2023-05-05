@@ -5,7 +5,7 @@ import "fmt"
 var cmdMap = map[string]command{
 	"ls":    ls{},
 	"cd":    cd{},
-	"cpd":   cpd{},
+	"cpd":   cpd{}, //親ディレクトリに移動する用のコマンド
 	"mkdir": mkdir{},
 	"rmdir": rmdir{},
 }
