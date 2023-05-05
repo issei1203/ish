@@ -8,6 +8,8 @@ var cmdMap = map[string]command{
 	"cpd":   cpd{}, //親ディレクトリに移動する用のコマンド
 	"mkdir": mkdir{},
 	"rmdir": rmdir{},
+	"touch": touch{},
+	"rm":    rm{},
 }
 
 func Exec(cmd string) {
